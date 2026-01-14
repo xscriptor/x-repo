@@ -1,18 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-xos-bg-dark: #000000;
+  --color-xos-bg-light: #ffffff;
+  --color-xos-text-dark: #ffffff;
+  --color-xos-text-light: #000000;
+  --color-xos-cyan: #00d2ff;
+  --color-xos-purple: #bc13fe;
+  --color-xos-pink: #ff0055;
+  --color-xos-orange: #ff6b00;
+  --color-xos-gold: #ffb700;
+
+  --font-family-serif: 'Hack Nerd Font', monospace;
+  --font-family-sans: 'Hack Nerd Font', monospace;
+  --font-family-mono: 'Hack Nerd Font', monospace;
+}
 
 @font-face {
   font-family: 'Hack Nerd Font';
   src: url('/fonts/HackNerdFont-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-}
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,6 +30,7 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
 
 body {
   font-family: 'Hack Nerd Font', monospace;
