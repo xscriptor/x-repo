@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-xos-bg-dark: #000000;
-  --color-xos-bg-light: #ffffff;
-  --color-xos-text-dark: #ffffff;
-  --color-xos-text-light: #000000;
-  --color-xos-cyan: #00d2ff;
-  --color-xos-purple: #bc13fe;
-  --color-xos-pink: #ff0055;
-  --color-xos-orange: #ff6b00;
-  --color-xos-gold: #ffb700;
+  --color-X-bg-dark: #000000;
+  --color-X-bg-light: #ffffff;
+  --color-X-text-dark: #ffffff;
+  --color-X-text-light: #000000;
+  --color-X-cyan: #00d2ff;
+  --color-X-purple: #bc13fe;
+  --color-X-pink: #ff0055;
+  --color-X-orange: #ff6b00;
+  --color-X-gold: #ffb700;
 
   --font-family-serif: 'Hack Nerd Font', monospace;
   --font-family-sans: 'Hack Nerd Font', monospace;
@@ -34,7 +34,7 @@
 
 body {
   font-family: 'Hack Nerd Font', monospace;
-  @apply bg-xos-bg-light text-xos-text-light dark:bg-xos-bg-dark dark:text-xos-text-dark transition-colors duration-500;
+  @apply bg-X-bg-light text-X-text-light dark:bg-X-bg-dark dark:text-X-text-dark transition-colors duration-500;
 }
 
 .glass-panel {

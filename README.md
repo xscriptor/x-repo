@@ -1,6 +1,6 @@
-# Xos Website Project
+# X Website Project
 
-This is the official website for the Xos Operating System, an Arch-based distro.
+This is the official website for the X Operating System, an Arch-based distro.
 
 ## Features
 

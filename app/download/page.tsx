@@ -17,13 +17,13 @@ export default function DownloadPage() {
     } else if (timeLeft === 0 && !downloadStarted) {
       setDownloadStarted(true);
       // Simulate download trigger
-      console.log("Download started: xos-latest-x86_64.iso");
+      console.log("Download started: X-latest-x86_64.iso");
       // In a real app: window.location.href = '/path/to/iso';
     }
   }, [timeLeft, downloadStarted]);
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-xos-white dark:bg-xos-dark p-4">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-X-white dark:bg-X-dark p-4">
       <motion.div 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -32,7 +32,7 @@ export default function DownloadPage() {
         <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
             <circle
-              className="text-xos-gray/20"
+              className="text-X-gray/20"
               strokeWidth="8"
               stroke="currentColor"
               fill="transparent"
@@ -41,7 +41,7 @@ export default function DownloadPage() {
               cy="50"
             />
             <circle
-              className="text-xos-green transition-all duration-1000 ease-linear"
+              className="text-X-green transition-all duration-1000 ease-linear"
               strokeWidth="8"
               strokeDasharray={251.2}
               strokeDashoffset={251.2 * (1 - timeLeft / 5)}
@@ -53,25 +53,25 @@ export default function DownloadPage() {
               cy="50"
             />
           </svg>
-          <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold font-serif text-xos-green">
+          <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold font-serif text-X-green">
             {timeLeft}
           </div>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold font-serif text-xos-dark dark:text-xos-white">
+          <h2 className="text-2xl font-bold font-serif text-X-dark dark:text-X-white">
             {t.download.title}
           </h2>
-          <p className="text-xos-gray">
+          <p className="text-X-gray">
             {timeLeft > 0 ? t.download.message : "Download starting..."}
           </p>
         </div>
 
-        <div className="pt-4 border-t border-xos-gray/10 text-sm text-xos-gray">
+        <div className="pt-4 border-t border-X-gray/10 text-sm text-X-gray">
           <p>{t.download.manual}</p>
           <button 
             onClick={() => alert("Direct download link clicked")}
-            className="text-xos-cyan hover:text-xos-pink underline font-medium mt-1 inline-flex items-center gap-1"
+            className="text-X-cyan hover:text-X-pink underline font-medium mt-1 inline-flex items-center gap-1"
           >
             {t.download.button} <Download size={14} />
           </button>

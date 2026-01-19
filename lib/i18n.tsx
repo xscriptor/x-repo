@@ -10,7 +10,7 @@ interface Translations {
     subtitle: string;
     cta: string;
   };
-  xos: {
+  X: {
     title: string;
     description: string;
     features: {
@@ -86,12 +86,12 @@ interface Translations {
 const translations: Record<Language, Translations> = {
   en: {
     home: {
-      title: "Xos,\nminimal,\npowerful,\nyours...",
+      title: "X,\nminimal,\npowerful,\nyours...",
       subtitle: "The next evolution of Arch Linux. Minimal. Powerful. Yours.",
       cta: "Get Started",
     },
-    xos: {
-      title: "XOs Linux",
+    X: {
+      title: "X Linux",
       description: "A custom Arch Linux–based distribution focused on simplicity, clean X branding, and reproducible builds. Built entirely from official Arch repositories.",
       features: {
         minimal: "Minimal & Polished",
@@ -101,7 +101,7 @@ const translations: Record<Language, Translations> = {
     },
     scripts: {
       title: "X Scripts",
-      description: "System scripts for XOS configuration. The entrypoint `x.sh` handles environment setup, shell configuration, and distro-aware package management.",
+      description: "System scripts for X configuration. The entrypoint `x.sh` handles environment setup, shell configuration, and distro-aware package management.",
       features: {
         setup: "Automated Setup",
         modules: "Modular Add-ons",
@@ -110,7 +110,7 @@ const translations: Record<Language, Translations> = {
     customizations: {
       vscode: {
         title: "VSCode X",
-        description: "Optimized for XOs with exclusive X extensions. Enhanced workflow and aesthetics out of the box.",
+        description: "Optimized for X with exclusive X extensions. Enhanced workflow and aesthetics out of the box.",
       },
       helix: {
         title: "Helix Editor",
@@ -132,7 +132,7 @@ const translations: Record<Language, Translations> = {
       contact: "Contact",
     },
     download: {
-      title: "Downloading Xos",
+      title: "Downloading X",
       message: "Your download will start in a few seconds...",
       manual: "If it doesn't start automatically after 5 seconds,",
       button: "click here",
@@ -150,7 +150,7 @@ const translations: Record<Language, Translations> = {
     },
     contact: {
       title: "Get in Touch",
-      description: "Have questions or enterprise inquiries? Reach out to the Xos team.",
+      description: "Have questions or enterprise inquiries? Reach out to the X team.",
       form: {
         name: "Name",
         email: "Email",
@@ -162,12 +162,12 @@ const translations: Record<Language, Translations> = {
       content: `
 # Documentation
 
-## XOs Linux
+## X Linux
 
 
-**XOs** is a custom Arch Linux–based distribution focused on simplicity, clean X branding, and reproducible builds.
+**X** is a custom Arch Linux–based distribution focused on simplicity, clean X branding, and reproducible builds.
 
-This repository contains the full ArchISO profile and post-installation assets used to generate the official XOs ISO image.
+This repository contains the full ArchISO profile and post-installation assets used to generate the official X ISO image.
 
 > **Project status:** Under active development
 
@@ -177,7 +177,7 @@ This repository contains the full ArchISO profile and post-installation assets u
 
 ### Overview
 
-XOs aims to provide a minimal yet polished Arch-based system with its own identity and branding.
+X aims to provide a minimal yet polished Arch-based system with its own identity and branding.
 
 It is built entirely from official Arch repositories, using the standard \`mkarchiso\` workflow with a custom profile definition and post-install scripts.
 
@@ -185,13 +185,13 @@ It is built entirely from official Arch repositories, using the standard \`mkarc
 ### Project Structure
 
 \`\`\`
-xos/
+X/
 ├── profiledef.sh             # ArchISO profile definition
 ├── pacman.conf               # Custom package configuration
 ├── packages.x86_64           # Package list for ISO build
 ├── airootfs/                 # Root filesystem (customized ArchISO overlay)
 ├── root/
-│   └── xos-assets/           # Branding, wallpapers, logos, postinstall scripts
+│   └── X-assets/           # Branding, wallpapers, logos, postinstall scripts
 ├── build.sh                  # Automated build script
 └── .gitignore
 \`\`\`
@@ -199,7 +199,7 @@ xos/
 
 ### Building the ISO
 
-To build the XOs ISO image locally, ensure you have \`archiso\` installed.
+To build the X ISO image locally, ensure you have \`archiso\` installed.
 
 \`\`\`bash
 sudo pacman -S archiso
@@ -223,14 +223,14 @@ The script will:
 
 ### Post-installation Customization
 
-After installing Arch via the generated ISO, execute the **XOs post-install script** to apply full system branding and configuration.
+After installing Arch via the generated ISO, execute the **X post-install script** to apply full system branding and configuration.
 
 \`\`\`bash
-sudo /root/xos-assets/xos-postinstall.sh
+sudo /root/X-assets/X-postinstall.sh
 \`\`\`
 
 This script:
-* Rewrites \`/etc/os-release\` to identify the system as XOs Linux.
+* Rewrites \`/etc/os-release\` to identify the system as X Linux.
 
 * Installs wallpapers, logos, and GDM/GNOME branding.
 
@@ -242,12 +242,12 @@ This script:
 
 ## X Scripts
 
-This repository contains system scripts for XOS. The primary entrypoint is \`x.sh\`, which configures and refreshes the environment after a reboot. An in-progress \`scripts\` directory will host optional add-ons and extra configurations.
+This repository contains system scripts for X. The primary entrypoint is \`x.sh\`, which configures and refreshes the environment after a reboot. An in-progress \`scripts\` directory will host optional add-ons and extra configurations.
 
 
 ### x.sh (Base Script)
 
-- **Purpose**: Apply the latest required configurations for XOS after a reboot.
+- **Purpose**: Apply the latest required configurations for X after a reboot.
 
 - **Responsibilities**:
   - Ensure the \`x\` wrapper command is installed to \`/usr/bin/x\` so \`x <cmd>\` runs with elevated privileges.
@@ -273,18 +273,18 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
 
 - **Location**: \`/scripts\` (to be populated).
 
-- **Purpose**: Host optional and modular configurations that can be added to XOS on demand, without being part of the base setup.
+- **Purpose**: Host optional and modular configurations that can be added to X on demand, without being part of the base setup.
       `,
     },
   },
   es: {
     home: {
-      title: "Xos,\nminimalista,\npotente,\npara ti...",
+      title: "X,\nminimalista,\npotente,\npara ti...",
       subtitle: "La próxima evolución de Arch Linux. Minimalista. Potente. Tuyo.",
       cta: "Comenzar",
     },
-    xos: {
-      title: "XOs Linux",
+    X: {
+      title: "X Linux",
       description: "Una distribución basada en Arch Linux personalizada, enfocada en la simplicidad, identidad X limpia y compilaciones reproducibles.",
       features: {
         minimal: "Minimalista y Pulido",
@@ -294,7 +294,7 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
     },
     scripts: {
       title: "X Scripts",
-      description: "Scripts de sistema para la configuración de XOS. El punto de entrada `x.sh` gestiona la configuración del entorno, la shell y la gestión de paquetes.",
+      description: "Scripts de sistema para la configuración de X. El punto de entrada `x.sh` gestiona la configuración del entorno, la shell y la gestión de paquetes.",
       features: {
         setup: "Configuración Automatizada",
         modules: "Complementos Modulares",
@@ -303,7 +303,7 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
     customizations: {
       vscode: {
         title: "VSCode X",
-        description: "Optimizado para XOs con extensiones X exclusivas. Flujo de trabajo y estética mejorados desde el inicio.",
+        description: "Optimizado para X con extensiones X exclusivas. Flujo de trabajo y estética mejorados desde el inicio.",
       },
       helix: {
         title: "Editor Helix",
@@ -325,7 +325,7 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
       contact: "Contacto",
     },
     download: {
-      title: "Descargando Xos",
+      title: "Descargando X",
       message: "Su descarga empezará en algunos segundos...",
       manual: "Si pasados cinco segundos no empieza,",
       button: "de click aquí",
@@ -343,7 +343,7 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
     },
     contact: {
       title: "Contáctanos",
-      description: "¿Tienes preguntas o consultas empresariales? Escribe al equipo de Xos.",
+      description: "¿Tienes preguntas o consultas empresariales? Escribe al equipo de X.",
       form: {
         name: "Nombre",
         email: "Correo",
@@ -355,12 +355,12 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
       content: `
 # Documentación
 
-## XOs Linux
+## X Linux
 
 
-**XOs** es una distribución personalizada basada en Arch Linux centrada en la simplicidad, una identidad X limpia y compilaciones reproducibles.
+**X** es una distribución personalizada basada en Arch Linux centrada en la simplicidad, una identidad X limpia y compilaciones reproducibles.
 
-Este repositorio contiene el perfil completo de ArchISO y los activos de post-instalación utilizados para generar la imagen ISO oficial de XOs.
+Este repositorio contiene el perfil completo de ArchISO y los activos de post-instalación utilizados para generar la imagen ISO oficial de X.
 
 > **Estado del proyecto:** En desarrollo activo
 
@@ -370,7 +370,7 @@ Este repositorio contiene el perfil completo de ArchISO y los activos de post-in
 
 ### Descripción General
 
-XOs tiene como objetivo proporcionar un sistema basado en Arch mínimo pero pulido, con su propia identidad y marca.
+X tiene como objetivo proporcionar un sistema basado en Arch mínimo pero pulido, con su propia identidad y marca.
 
 Está construido completamente a partir de los repositorios oficiales de Arch, utilizando el flujo de trabajo estándar de \`mkarchiso\` con una definición de perfil personalizada y scripts de post-instalación.
 
@@ -378,13 +378,13 @@ Está construido completamente a partir de los repositorios oficiales de Arch, u
 ### Estructura del Proyecto
 
 \`\`\`
-xos/
+X/
 ├── profiledef.sh             # Definición del perfil ArchISO
 ├── pacman.conf               # Configuración personalizada de paquetes
 ├── packages.x86_64           # Lista de paquetes para la compilación ISO
 ├── airootfs/                 # Sistema de archivos raíz (superposición personalizada de ArchISO)
 ├── root/
-│   └── xos-assets/           # Marca, fondos de pantalla, logotipos, scripts post-instalación
+│   └── X-assets/           # Marca, fondos de pantalla, logotipos, scripts post-instalación
 ├── build.sh                  # Script de compilación automatizado
 └── .gitignore
 \`\`\`
@@ -392,7 +392,7 @@ xos/
 
 ### Construcción de la ISO
 
-Para construir la imagen ISO de XOs localmente, asegúrese de tener \`archiso\` instalado.
+Para construir la imagen ISO de X localmente, asegúrese de tener \`archiso\` instalado.
 
 \`\`\`bash
 sudo pacman -S archiso
@@ -416,14 +416,14 @@ El script:
 
 ### Personalización Post-instalación
 
-Después de instalar Arch a través de la ISO generada, ejecute el **script post-instalación de XOs** para aplicar la marca y configuración completa del sistema.
+Después de instalar Arch a través de la ISO generada, ejecute el **script post-instalación de X** para aplicar la marca y configuración completa del sistema.
 
 \`\`\`bash
-sudo /root/xos-assets/xos-postinstall.sh
+sudo /root/X-assets/X-postinstall.sh
 \`\`\`
 
 Este script:
-* Reeiscribe \`/etc/os-release\` para identificar el sistema como XOs Linux.
+* Reeiscribe \`/etc/os-release\` para identificar el sistema como X Linux.
 
 * Instala fondos de pantalla, logotipos y la marca GDM/GNOME.
 
@@ -435,12 +435,12 @@ Este script:
 
 ## X Scripts
 
-Este repositorio contiene scripts de sistema para XOS. El punto de entrada principal es \`x.sh\`, que configura y actualiza el entorno después de un reinicio. Un directorio \`scripts\` en progreso alojará complementos opcionales y configuraciones extra.
+Este repositorio contiene scripts de sistema para X. El punto de entrada principal es \`x.sh\`, que configura y actualiza el entorno después de un reinicio. Un directorio \`scripts\` en progreso alojará complementos opcionales y configuraciones extra.
 
 
 ### x.sh (Script Base)
 
-- **Propósito**: Aplicar las últimas configuraciones requeridas para XOS después de un reinicio.
+- **Propósito**: Aplicar las últimas configuraciones requeridas para X después de un reinicio.
 
 - **Responsabilidades**:
   - Asegurar que el comando envoltorio \`x\` esté instalado en \`/usr/bin/x\` para que \`x <cmd>\` se ejecute con privilegios elevados.
@@ -466,7 +466,7 @@ Después de la ejecución, recargue su shell: \`source ~/.bashrc\` o \`source ~/
 
 - **Ubicación**: \`/scripts\` (para ser poblado).
 
-- **Propósito**: Alojar configuraciones opcionales y modulares que se pueden agregar a XOS bajo demanda, sin ser parte de la configuración base.
+- **Propósito**: Alojar configuraciones opcionales y modulares que se pueden agregar a X bajo demanda, sin ser parte de la configuración base.
       `,
     },
   },

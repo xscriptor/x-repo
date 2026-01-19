@@ -94,7 +94,7 @@ float fbm(vec3 p) {
     return f;
 }
 
-vec3 getXosColor(float t) {
+vec3 getXColor(float t) {
     vec3 col = vec3(0.0);
     col = mix(iColorPurple, iColorBlue, smoothstep(0.0, 0.4, t));
     col = mix(col, iColorGreen, smoothstep(0.4, 0.6, t));
@@ -185,7 +185,7 @@ void main() {
                     temp += n * 0.3; 
                     temp = clamp(temp, 0.0, 1.0);
                     
-                    vec3 emission = getXosColor(temp);
+                    vec3 emission = getXColor(temp);
                     // Mix in extra orange only
                     emission = mix(emission, iColorOrange, 0.4); // More vibrant color
                     

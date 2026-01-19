@@ -9,8 +9,8 @@ import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-// Xos Prompt Icon Component
-const XosIcon = ({ className }: { className?: string }) => (
+// X Prompt Icon Component
+const XIcon = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 48 24"
     fill="none"
@@ -25,7 +25,7 @@ const XosIcon = ({ className }: { className?: string }) => (
     <path d="M4 18L10 12L4 6" />
     <line x1="12" y1="18" x2="18" y2="18" />
 
-    {/* XOs Text */}
+    {/* X Text */}
     <text
       x="22"
       y="17"
@@ -36,7 +36,7 @@ const XosIcon = ({ className }: { className?: string }) => (
       stroke="none"
       letterSpacing="-1px"
     >
-      XOs
+      X
     </text>
   </svg>
 );
@@ -76,8 +76,8 @@ function DockItem({
       className={clsx(
         "flex items-center justify-center rounded-2xl transition-colors duration-300",
         active
-          ? "bg-xos-pink/20 text-xos-pink border border-xos-pink/50 shadow-[0_0_15px_rgba(188,19,254,0.3)]"
-          : "bg-black/40 text-xos-gray hover:text-xos-cyan hover:bg-black/60 border border-white/5 hover:border-xos-cyan/30 dark:bg-black/40 dark:text-xos-gray dark:hover:text-xos-cyan dark:hover:bg-black/60 dark:border-white/5 bg-white/50 text-gray-700 hover:text-xos-cyan hover:bg-white/80 border-black/5"
+          ? "bg-X-pink/20 text-X-pink border border-X-pink/50 shadow-[0_0_15px_rgba(188,19,254,0.3)]"
+          : "bg-black/40 text-X-gray hover:text-X-cyan hover:bg-black/60 border border-white/5 hover:border-X-cyan/30 dark:bg-black/40 dark:text-X-gray dark:hover:text-X-cyan dark:hover:bg-black/60 dark:border-white/5 bg-white/50 text-gray-700 hover:text-X-cyan hover:bg-white/80 border-black/5"
       )}
     >
       <div className="transform scale-110 flex items-center justify-center w-full h-full">
@@ -127,7 +127,7 @@ export default function Navbar() {
           mouseX={mouseX}
           widthRatio={2}
         >
-          <XosIcon className="w-full h-full px-2" />
+          <XIcon className="w-full h-full px-2" />
         </DockItem>
 
         <div className="w-px h-8 bg-black/10 dark:bg-white/10 self-center mx-1" />
@@ -165,7 +165,7 @@ export default function Navbar() {
         </DockItem>
 
         <DockItem
-          href="https://github.com/xscriptordev/xos"
+          href="https://github.com/xscriptor/x-linux"
           target="_blank"
           mouseX={mouseX}
         >
@@ -189,9 +189,9 @@ export default function Navbar() {
           mouseX={mouseX}
         >
           {theme === 'dark' ? (
-            <Sun className="w-5 h-5 text-xos-yellow" />
+            <Sun className="w-5 h-5 text-X-yellow" />
           ) : (
-            <Moon className="w-5 h-5 text-xos-yellow" />
+            <Moon className="w-5 h-5 text-X-yellow" />
           )}
         </DockItem>
 

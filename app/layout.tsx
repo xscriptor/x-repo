@@ -13,7 +13,7 @@ const anonymous = Anonymous_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Xos",
+  title: "X",
   description: "Minimalist Arch-based operating system",
 };
 

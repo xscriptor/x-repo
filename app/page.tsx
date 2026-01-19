@@ -10,7 +10,7 @@ export default function Home() {
   const { t } = useI18n();
 
   return (
-    <div className="relative min-h-screen bg-xos-white dark:bg-black transition-colors duration-500">
+    <div className="relative min-h-screen bg-X-white dark:bg-black transition-colors duration-500">
       <BlackHoleBackground />
 
       {/* Overlay gradiente para asegurar contraste - Ajustado para light mode */}
@@ -29,14 +29,14 @@ export default function Home() {
               {t.home.title}
             </h1>
 
-            <p className="font-serif text-2xl md:text-3xl text-xos-white/90 italic font-light tracking-wide hidden">
+            <p className="font-serif text-2xl md:text-3xl text-X-white/90 italic font-light tracking-wide hidden">
               {t.home.subtitle}
             </p>
 
             <div className="pt-12">
               <Link
                 href="/download"
-                className="inline-flex items-center gap-2 px-10 py-5 text-xos-purple dark:text-xos-gold hover:text-red-500 transition-colors duration-300 group"
+                className="inline-flex items-center gap-2 px-10 py-5 text-X-purple dark:text-X-gold hover:text-red-500 transition-colors duration-300 group"
               >
                 <span className="font-medium text-lg text-current">{t.home.cta}</span>
                 <ArrowRight className="group-hover:translate-x-1 transition-transform text-current" />
@@ -48,24 +48,24 @@ export default function Home() {
         {/* Info Sections */}
         <div className="bg-white/60 dark:bg-black/60 backdrop-blur-xl border-t border-white/10 dark:border-white/5 transition-colors duration-500">
 
-          {/* XOs Linux */}
+          {/* X Linux */}
           <section className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <h2 className="text-4xl font-serif font-bold text-black dark:text-white">{t.xos.title}</h2>
+              <h2 className="text-4xl font-serif font-bold text-black dark:text-white">{t.X.title}</h2>
               <p className="text-lg text-gray-800 dark:text-gray-300 leading-relaxed">
-                {t.xos.description}
+                {t.X.description}
               </p>
               <ul className="space-y-4 pt-4">
-                {[t.xos.features.minimal, t.xos.features.branding, t.xos.features.reproducible].map((item, i) => (
+                {[t.X.features.minimal, t.X.features.branding, t.X.features.reproducible].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-700 dark:text-gray-400">
-                    <div className="h-1.5 w-1.5 rounded-full bg-xos-cyan" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-X-cyan" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="h-64 md:h-96 bg-gradient-to-br from-xos-cyan/20 to-transparent rounded-2xl border border-xos-cyan/30 flex items-center justify-center">
-              <span className="text-xos-cyan/50 font-serif italic text-xl">XOs Visualization</span>
+            <div className="h-64 md:h-96 bg-gradient-to-br from-X-cyan/20 to-transparent rounded-2xl border border-X-cyan/30 flex items-center justify-center">
+              <span className="text-X-cyan/50 font-serif italic text-xl">X Visualization</span>
             </div>
           </section>
 
@@ -79,14 +79,14 @@ export default function Home() {
               <ul className="space-y-4 pt-4">
                 {[t.scripts.features.setup, t.scripts.features.modules].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-gray-700 dark:text-gray-400">
-                    <div className="h-1.5 w-1.5 rounded-full bg-xos-purple" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-X-purple" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-xos-purple/20 to-transparent rounded-2xl border border-xos-purple/30 flex items-center justify-center">
-              <span className="text-xos-purple/50 font-serif italic text-xl">System Shell</span>
+            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-X-purple/20 to-transparent rounded-2xl border border-X-purple/30 flex items-center justify-center">
+              <span className="text-X-purple/50 font-serif italic text-xl">System Shell</span>
             </div>
           </section>
 
@@ -98,8 +98,8 @@ export default function Home() {
                 {t.customizations.vscode.description}
               </p>
             </div>
-            <div className="h-64 md:h-96 bg-gradient-to-br from-xos-cyan/20 to-transparent rounded-2xl border border-xos-cyan/30 flex items-center justify-center">
-              <span className="text-xos-cyan/50 font-serif italic text-xl">VSCode X</span>
+            <div className="h-64 md:h-96 bg-gradient-to-br from-X-cyan/20 to-transparent rounded-2xl border border-X-cyan/30 flex items-center justify-center">
+              <span className="text-X-cyan/50 font-serif italic text-xl">VSCode X</span>
             </div>
           </section>
 
@@ -111,8 +111,8 @@ export default function Home() {
                 {t.customizations.helix.description}
               </p>
             </div>
-            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-xos-purple/20 to-transparent rounded-2xl border border-xos-purple/30 flex items-center justify-center">
-              <span className="text-xos-purple/50 font-serif italic text-xl">Helix Editor</span>
+            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-X-purple/20 to-transparent rounded-2xl border border-X-purple/30 flex items-center justify-center">
+              <span className="text-X-purple/50 font-serif italic text-xl">Helix Editor</span>
             </div>
           </section>
 
@@ -124,8 +124,8 @@ export default function Home() {
                 {t.customizations.ghostty.description}
               </p>
             </div>
-            <div className="h-64 md:h-96 bg-gradient-to-br from-xos-pink/20 to-transparent rounded-2xl border border-xos-pink/30 flex items-center justify-center">
-              <span className="text-xos-pink/50 font-serif italic text-xl">Ghostty</span>
+            <div className="h-64 md:h-96 bg-gradient-to-br from-X-pink/20 to-transparent rounded-2xl border border-X-pink/30 flex items-center justify-center">
+              <span className="text-X-pink/50 font-serif italic text-xl">Ghostty</span>
             </div>
           </section>
 
@@ -137,8 +137,8 @@ export default function Home() {
                 {t.customizations.tools.description}
               </p>
             </div>
-            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-xos-gold/20 to-transparent rounded-2xl border border-xos-gold/30 flex items-center justify-center">
-              <span className="text-xos-gold/50 font-serif italic text-xl">xFetch & xTop</span>
+            <div className="md:order-1 h-64 md:h-96 bg-gradient-to-bl from-X-gold/20 to-transparent rounded-2xl border border-X-gold/30 flex items-center justify-center">
+              <span className="text-X-gold/50 font-serif italic text-xl">xFetch & xTop</span>
             </div>
           </section>
 

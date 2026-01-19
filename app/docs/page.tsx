@@ -9,7 +9,7 @@ export default function DocsPage() {
     const { t } = useI18n();
 
     return (
-        <div className="relative min-h-screen bg-xos-white dark:bg-black transition-colors duration-500">
+        <div className="relative min-h-screen bg-X-white dark:bg-black transition-colors duration-500">
             <BlackHoleBackground />
 
             {/* Gradient Overlay */}
