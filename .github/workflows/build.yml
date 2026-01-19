@@ -34,12 +34,14 @@ jobs:
       - name: Create Repo Database
         run: |
           mkdir -p public/repo/x86_64
-          # Movemos el paquete compilado a la carpeta pública
           mv packages/x-release/*.pkg.tar.zst public/repo/x86_64/
           cd public/repo/x86_64
-          # Generamos la base de datos 'x.db'
           repo-add x.db.tar.gz *.pkg.tar.zst
-          # Limpieza de symlinks para que la web los sirva bien
+          
+          # --- CORRECCIÓN AQUÍ ---
+          # Borramos los enlaces simbólicos automáticos
+          rm x.db x.files
+          # Ahora sí copiamos los archivos reales
           cp x.db.tar.gz x.db
           cp x.files.tar.gz x.files
 
