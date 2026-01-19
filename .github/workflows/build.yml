@@ -1,0 +1,82 @@
+name: Build Repo & Deploy Web
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 1. TRABAJO DE COMPILACIÓN (Crea el paquete de X Linux)
+  build-repo:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel  # Usamos Arch para poder compilar
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Fix permissions & Build Package
+        # makepkg no puede correr como root, creamos un usuario 'builder'
+        run: |
+          pacman -Sy --noconfirm
+          useradd -m builder
+          chown -R builder:builder .
+          cd packages/x-release
+          su builder -c "makepkg -sf --noconfirm"
+          
+      - name: Create Repo Database
+        run: |
+          mkdir -p public/repo/x86_64
+          # Movemos el paquete compilado a la carpeta pública
+          mv packages/x-release/*.pkg.tar.zst public/repo/x86_64/
+          cd public/repo/x86_64
+          # Generamos la base de datos 'x.db'
+          repo-add x.db.tar.gz *.pkg.tar.zst
+          # Limpieza de symlinks para que la web los sirva bien
+          cp x.db.tar.gz x.db
+          cp x.files.tar.gz x.files
+
+      - name: Upload Repo Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-files
+          path: public/repo
+
+  # 2. TRABAJO DE WEB (Construye Next.js y publica)
+  deploy-web:
+    needs: build-repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Download Repo Files
+        uses: actions/download-artifact@v4
+        with:
+          name: repo-files
+          path: public/repo
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          
+      - name: Install & Build Next.js
+        run: |
+          npm ci
+          npm run build
+          
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
