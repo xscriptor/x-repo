@@ -7,7 +7,7 @@ arch=('any')
 url="https://dev.xscriptor.com/x"
 license=('MIT')
 install=x-release.install
-source=('distributir-logo.svg')
+source=('distributor-logo.svg')
 md5sums=('SKIP')
 
 package() {
@@ -40,5 +40,5 @@ GRUB_GFXPAYLOAD_LINUX=keep
 GRUB_DISABLE_RECOVERY=true
 EOF
 
-    install -Dm644 "distributir-logo.svg" "$pkgdir/usr/share/pixmaps/x.svg"
+    install -Dm644 "distributor-logo.svg" "$pkgdir/usr/share/pixmaps/x.svg"
 }
