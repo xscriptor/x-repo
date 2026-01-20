@@ -1,21 +1,18 @@
 # Maintainer: Xscriptor <dev@xscriptor.com>
 pkgname=x-release
 pkgver=1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="X Linux identity and branding files"
 arch=('any')
 url="https://dev.xscriptor.com/x"
 license=('MIT')
-backup=('etc/os-release' 'etc/default/grub')
 install=x-release.install
-
-source=('distributor-logo.svg')
+source=('distributir-logo.svg')
 md5sums=('SKIP')
 
 package() {
-    install -Dm644 "distributor-logo.svg" "$pkgdir/usr/share/pixmaps/x.png"
-
-    install -Dm644 /dev/stdin "$pkgdir/etc/os-release" <<'EOF'
+    install -d "$pkgdir/usr/share/x-release"
+    install -Dm644 /dev/stdin "$pkgdir/usr/share/x-release/os-release" <<'EOF'
 NAME="X"
 PRETTY_NAME="X Linux"
 ID=x
@@ -23,10 +20,13 @@ ID_LIKE=arch
 BUILD_ID=rolling
 ANSI_COLOR="0;36"
 HOME_URL="https://dev.xscriptor.com/x"
+DOCUMENTATION_URL="https://dev.xscriptor.com/x/docs"
+SUPPORT_URL="https://dev.xscriptor.com/x/support"
+BUG_REPORT_URL="https://github.com/xscriptor/x-linux"
 LOGO=x
 EOF
 
-    install -Dm644 /dev/stdin "$pkgdir/etc/default/grub" <<'EOF'
+    install -Dm644 /dev/stdin "$pkgdir/usr/share/x-release/grub" <<'EOF'
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR="X"
@@ -40,6 +40,5 @@ GRUB_GFXPAYLOAD_LINUX=keep
 GRUB_DISABLE_RECOVERY=true
 EOF
 
-    install -d "$pkgdir/usr/lib"
-    ln -sf /etc/os-release "$pkgdir/usr/lib/os-release"
+    install -Dm644 "distributir-logo.svg" "$pkgdir/usr/share/pixmaps/x.svg"
 }

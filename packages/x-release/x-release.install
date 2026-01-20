@@ -1,17 +1,27 @@
 # Post-install/upgrade hooks for x-release
 
 post_install() {
-    echo ":: X branding installed"
-    echo "   - /etc/os-release configured"
-    echo "   - /etc/default/grub configured with GRUB_DISTRIBUTOR=\"X\""
+    echo "Applying X Linux identity..."
+
+    # 1. Reemplazamos os-release forzando la sobreescritura
+    # Esto soluciona el conflicto con el paquete 'filesystem'
+    if [ -f /usr/share/x-release/os-release ]; then
+        cp -f /usr/share/x-release/os-release /usr/lib/os-release
+    fi
     
-    # Regenerate GRUB config if grub is installed
+    # 2. Reemplazamos la configuración de GRUB
+    # Esto soluciona el conflicto con el paquete 'grub'
+    if [ -f /usr/share/x-release/grub ] && [ -d /etc/default ]; then
+        cp -f /usr/share/x-release/grub /etc/default/grub
+    fi
+
+    # 3. Regeneramos GRUB para que los cambios se vean al arrancar
     if command -v grub-mkconfig &>/dev/null && [ -d /boot/grub ]; then
-        echo ":: Regenerating GRUB configuration..."
+        echo "Regenerating GRUB configuration..."
         grub-mkconfig -o /boot/grub/grub.cfg 2>/dev/null || true
     fi
     
-    # Update systemd-boot entries if they exist
+    # 4. Parche para systemd-boot (por si acaso se usa en lugar de GRUB)
     for dir in /boot/loader/entries /efi/loader/entries; do
         if [ -d "$dir" ]; then
             for f in "$dir"/*.conf; do
@@ -23,4 +33,11 @@ post_install() {
 
 post_upgrade() {
     post_install
+}
+
+post_remove() {
+    # Regenerating GRUB configuration...
+    if [ -f /boot/grub/grub.cfg ]; then
+        grub-mkconfig -o /boot/grub/grub.cfg
+    fi
 }
