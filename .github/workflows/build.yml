@@ -34,7 +34,7 @@ jobs:
       - name: Create Repo Database
         run: |
           mkdir -p public/repo/x86_64
-          mv packages/x-release/*.pkg.tar.zst public/repo/x86_64/
+          find packages -name "*.pkg.tar.zst" -exec cp {} public/repo/x86_64/ \;
           cd public/repo/x86_64
           repo-add x.db.tar.gz *.pkg.tar.zst
           
