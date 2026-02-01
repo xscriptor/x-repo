@@ -56,6 +56,7 @@ interface Translations {
     message: string;
     manual: string;
     button: string;
+    wslButton: string;
   };
   developers: {
     title: string;
@@ -136,6 +137,7 @@ const translations: Record<Language, Translations> = {
       message: "Your download will start in a few seconds...",
       manual: "If it doesn't start automatically after 5 seconds,",
       button: "click here",
+      wslButton: "Download for WSL",
     },
     developers: {
       title: "Join the Revolution",
@@ -329,6 +331,7 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
       message: "Su descarga empezará en algunos segundos...",
       manual: "Si pasados cinco segundos no empieza,",
       button: "de click aquí",
+      wslButton: "Descargar para WSL",
     },
     developers: {
       title: "Únete a la Revolución",

@@ -16,13 +16,14 @@ export default function ContactPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
-    alert("Message sent! (Simulated)");
+    const subject = encodeURIComponent(`Contact Message: ${data.name}`);
+    const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
+    window.location.href = `mailto:x@xscriptor.com?subject=${subject}&body=${body}`;
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] py-12 px-4 bg-X-white dark:bg-X-dark flex items-center justify-center">
-      <motion.div 
+    <div className="min-h-[calc(100vh-64px)] pt-12 pb-32 px-4 bg-X-white dark:bg-X-dark flex items-center justify-center">
+      <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         className="max-w-2xl w-full space-y-8"
@@ -43,7 +44,7 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-medium text-X-dark dark:text-X-white">{t.contact.form.name}</label>
-              <input 
+              <input
                 {...register("name", { required: true })}
                 className="w-full px-4 py-2 rounded-lg bg-X-white/50 dark:bg-black/30 border border-X-gray/20 focus:border-X-green focus:ring-1 focus:ring-X-green outline-none transition-all"
               />
@@ -51,7 +52,7 @@ export default function ContactPage() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-X-dark dark:text-X-white">{t.contact.form.email}</label>
-              <input 
+              <input
                 {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                 className="w-full px-4 py-2 rounded-lg bg-X-white/50 dark:bg-black/30 border border-X-gray/20 focus:border-X-green focus:ring-1 focus:ring-X-green outline-none transition-all"
               />
@@ -61,7 +62,7 @@ export default function ContactPage() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-X-dark dark:text-X-white">{t.contact.form.message}</label>
-            <textarea 
+            <textarea
               {...register("message", { required: true })}
               rows={5}
               className="w-full px-4 py-2 rounded-lg bg-X-white/50 dark:bg-black/30 border border-X-gray/20 focus:border-X-green focus:ring-1 focus:ring-X-green outline-none transition-all resize-none"
@@ -69,7 +70,7 @@ export default function ContactPage() {
             {errors.message && <span className="text-xs text-X-pink">Required</span>}
           </div>
 
-          <button 
+          <button
             type="submit"
             className="w-full py-3 bg-X-green hover:bg-X-green/90 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2"
           >
