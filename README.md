@@ -76,24 +76,7 @@ This will create the repository structure in `packages/repo/x86_64/` with:
 - Compiled `.pkg.tar.zst` files
 - Repository database (`x.db.tar.gz`)
 
-#### Configure Repository in Arch/X Linux
 
-Add to `/etc/pacman.conf`:
-
-```ini
-[x]
-SigLevel = Optional TrustAll
-Server = https://github.com/xscriptor/x-repo/releases/download/latest
-```
-
----
-
-## X Linux Features
-
-- **Minimalistic** — Only the essentials, nothing more
-- **Arch Based** — Rolling release with AUR access
-- **Unique Identity** — Custom branding system-wide
-- **Reproducible** — Versioned and automated configurations
 
 ---
 
