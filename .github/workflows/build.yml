@@ -36,15 +36,19 @@ jobs:
         run: |
           mkdir -p public/repo/x86_64
           cp /tmp/xpkg-out/*.xp public/repo/x86_64/
-          cp /tmp/xpkg-out/*.xp.sig public/repo/x86_64/
+          if ls /tmp/xpkg-out/*.xp.sig >/dev/null 2>&1; then
+            cp /tmp/xpkg-out/*.xp.sig public/repo/x86_64/
+          fi
           cd public/repo/x86_64
 
           repo-add x.db.tar.gz *.xp
 
+          rm -f x.db
           cp x.db.tar.gz x.db
 
           # Keep the detached db signature with stable alias names.
           if [ -f x.db.tar.gz.sig ]; then
+            rm -f x.db.sig
             cp x.db.tar.gz.sig x.db.sig
           fi
 
