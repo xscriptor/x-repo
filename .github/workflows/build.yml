@@ -25,7 +25,7 @@ jobs:
       - name: Install toolchain and xpkg
         run: |
           pacman -Sy --noconfirm --needed rust cargo git openssl pkgconf
-          cargo install --git https://github.com/xscriptordev/xpkg --locked xpkg
+          cargo install --git https://github.com/xscriptor/xpkg --locked xpkg
 
       - name: Build x-release package (XBUILD)
         run: |

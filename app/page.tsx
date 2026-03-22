@@ -90,7 +90,7 @@ export default function Home() {
                 ))}
               </ul>
             </div>
-            <Link href="https://github.com/xscriptordev/x" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-purple/30 group hover:border-X-purple/60 transition-colors">
+            <Link href="https://github.com/xscriptor/x" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-purple/30 group hover:border-X-purple/60 transition-colors">
               <img
                 src="/x-repo/images/x-repo.png"
                 alt="X Scripts"
@@ -107,7 +107,7 @@ export default function Home() {
                 {t.customizations.vscode.description}
               </p>
             </div>
-            <Link href="https://github.com/xscriptordev/vscode" target="_blank" className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-cyan/30 group hover:border-X-cyan/60 transition-colors">
+            <Link href="https://github.com/xscriptor/vscode" target="_blank" className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-cyan/30 group hover:border-X-cyan/60 transition-colors">
               <img
                 src="/x-repo/images/vscode.jpg"
                 alt="VSCode X"
@@ -124,7 +124,7 @@ export default function Home() {
                 {t.customizations.helix.description}
               </p>
             </div>
-            <Link href="https://github.com/xscriptordev/helix" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-purple/30 group hover:border-X-purple/60 transition-colors">
+            <Link href="https://github.com/xscriptor/helix" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-purple/30 group hover:border-X-purple/60 transition-colors">
               <img
                 src="/x-repo/images/helix.png"
                 alt="Helix Editor"
@@ -141,7 +141,7 @@ export default function Home() {
                 {t.customizations.ghostty.description}
               </p>
             </div>
-            <Link href="https://github.com/xscriptordev/terminal" target="_blank" className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-pink/30 group hover:border-X-pink/60 transition-colors">
+            <Link href="https://github.com/xscriptor/terminal" target="_blank" className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-pink/30 group hover:border-X-pink/60 transition-colors">
               <img
                 src="/x-repo/images/xfetch.jpg"
                 alt="Ghostty Terminal"
@@ -158,7 +158,7 @@ export default function Home() {
                 {t.customizations.tools.description}
               </p>
             </div>
-            <Link href="https://github.com/xscriptordev/xtop" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-gold/30 group hover:border-X-gold/60 transition-colors">
+            <Link href="https://github.com/xscriptor/xtop" target="_blank" className="relative md:order-1 h-64 md:h-96 w-full rounded-2xl overflow-hidden border border-X-gold/30 group hover:border-X-gold/60 transition-colors">
               <img
                 src="/x-repo/images/xtop.png"
                 alt="X Tools"
