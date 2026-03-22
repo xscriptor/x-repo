@@ -165,7 +165,7 @@ export default function Navbar() {
         </DockItem>
 
         <DockItem
-          href="https://github.com/xscriptordev/x-linux"
+          href="https://github.com/xscriptor/x-linux"
           target="_blank"
           mouseX={mouseX}
         >
