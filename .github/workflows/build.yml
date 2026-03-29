@@ -32,31 +32,73 @@ jobs:
           cd packages/x-release
           ~/.cargo/bin/xpkg build -o /tmp/xpkg-out
 
-      - name: Create Repo Database
+      - name: Create Repositories (pacman and xpm)
         run: |
-          mkdir -p public/repo/x86_64
-          cp /tmp/xpkg-out/*.xp public/repo/x86_64/
-          if ls /tmp/xpkg-out/*.xp.sig >/dev/null 2>&1; then
-            cp /tmp/xpkg-out/*.xp.sig public/repo/x86_64/
-          fi
-          cd public/repo/x86_64
+          set -euo pipefail
 
-          repo-add x.db.tar.gz *.xp
+          mkdir -p public/repo/x86_64 public/x/x86_64
 
-          rm -f x.db
-          cp x.db.tar.gz x.db
+          # Copiar paquetes .xp generados por xpkg al endpoint x/ (para xpm)
+          for pkg in /tmp/xpkg-out/*.xp; do
+            [ -e "$pkg" ] || { echo "No .xp packages produced"; exit 1; }
+            base="$(basename "$pkg" .xp)"
+            cp "$pkg" "public/x/x86_64/$base.xp"
+            # Si existe firma, copiarla también
+            if [ -f "$pkg.sig" ]; then
+              cp "$pkg.sig" "public/x/x86_64/$base.xp.sig"
+            fi
+          done
 
-          # Keep the detached db signature with stable alias names.
-          if [ -f x.db.tar.gz.sig ]; then
-            rm -f x.db.sig
-            cp x.db.tar.gz.sig x.db.sig
-          fi
+          # Clonar paquetes al endpoint pacman renombrando a .pkg.tar.zst
+          for pkg in /tmp/xpkg-out/*.xp; do
+            base="$(basename "$pkg" .xp)"
+            cp "$pkg" "public/repo/x86_64/$base.pkg.tar.zst"
+            if [ -f "$pkg.sig" ]; then
+              cp "$pkg.sig" "public/repo/x86_64/$base.pkg.tar.zst.sig"
+            fi
+          done
+
+          # Base de datos para xpm (endpoint x/)
+          (
+            cd public/x/x86_64
+            rm -f x.db* x.files* || true
+            repo-add -n -R x.db.tar.gz *.xp
+            rm -f x.db x.files
+            cp x.db.tar.gz x.db
+            cp x.files.tar.gz x.files
+            if [ -f x.db.tar.gz.sig ]; then
+              rm -f x.db.sig
+              cp x.db.tar.gz.sig x.db.sig
+            fi
+            if [ -f x.files.tar.gz.sig ]; then
+              rm -f x.files.sig
+              cp x.files.tar.gz.sig x.files.sig
+            fi
+          )
+
+          # Base de datos para pacman (endpoint repo/)
+          (
+            cd public/repo/x86_64
+            rm -f x.db* x.files* || true
+            repo-add -n -R x.db.tar.gz *.pkg.tar.zst
+            rm -f x.db x.files
+            cp x.db.tar.gz x.db
+            cp x.files.tar.gz x.files
+            if [ -f x.db.tar.gz.sig ]; then
+              rm -f x.db.sig
+              cp x.db.tar.gz.sig x.db.sig
+            fi
+            if [ -f x.files.tar.gz.sig ]; then
+              rm -f x.files.sig
+              cp x.files.tar.gz.sig x.files.sig
+            fi
+          )
 
       - name: Upload Repo Artifact
         uses: actions/upload-artifact@v4
         with:
           name: repo-files
-          path: public/repo
+          path: public
 
   # 2. TRABAJO DE WEB (Construye Next.js y publica)
   deploy-web:
@@ -70,7 +112,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: repo-files
-          path: public/repo
+          path: public
 
       - name: Setup Node
         uses: actions/setup-node@v4
