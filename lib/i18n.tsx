@@ -167,21 +167,22 @@ const translations: Record<Language, Translations> = {
 ## X Linux
 
 
-**X** is a custom Arch Linux–based distribution focused on simplicity, clean X branding, and reproducible builds.
+**X** is a custom Arch Linux-based distribution focused on simplicity, a clean brand identity, and reproducible builds.
 
-This repository contains the full ArchISO profile and post-installation assets used to generate the official X ISO image.
+This repository contains the complete ArchISO profile along with the post-installation resources used to generate the official X ISO image.
 
-> **Project status:** Under active development
-
+> **Project status:** Actively under development
 
 ---
 
+### General description
 
-### Overview
+X aims to provide a system based on Arch that is minimal yet refined, with its own identity and a consistent user experience.
 
-X aims to provide a minimal yet polished Arch-based system with its own identity and branding.
+It is built entirely from the official Arch repositories, using the standard `mkarchiso` workflow combined with a custom profile configuration.
 
-It is built entirely from official Arch repositories, using the standard \`mkarchiso\` workflow with a custom profile definition and post-install scripts.
+
+---
 
 
 ### Project Structure
@@ -361,9 +362,9 @@ After execution, reload your shell: \`source ~/.bashrc\` or \`source ~/.zshrc\`.
 ## X Linux
 
 
-**X** es una distribución personalizada basada en Arch Linux centrada en la simplicidad, una identidad X limpia y compilaciones reproducibles.
+**X** es una distribución personalizada basada en Arch Linux, centrada en la simplicidad, una identidad de marca clara y compilaciones reproducibles.
 
-Este repositorio contiene el perfil completo de ArchISO y los activos de post-instalación utilizados para generar la imagen ISO oficial de X.
+Este repositorio contiene el perfil completo de ArchISO junto con los recursos posteriores a la instalación necesarios para generar la imagen ISO oficial de X.
 
 > **Estado del proyecto:** En desarrollo activo
 
