@@ -1,0 +1,201 @@
+name: Build X Native Repo & Deploy Web
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-x-native"
+  cancel-in-progress: false
+
+env:
+  GNUPGHOME: /tmp/gnupg
+
+jobs:
+  build-x-native:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - name: Checkout x-repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install build toolchain
+        run: |
+          set -euo pipefail
+          pacman -Sy --noconfirm --needed rust cargo git openssl pkgconf gnupg
+          cargo install --git https://github.com/xscriptor/xpkg --locked xpkg
+
+      - name: Clone source repositories
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/x-native-src
+
+          git clone --depth 1 https://github.com/xscriptor/xpm.git /tmp/x-native-src/xpm
+          git clone --depth 1 https://github.com/xscriptor/xpkg.git /tmp/x-native-src/xpkg
+          git clone --depth 1 https://github.com/xscriptor/xfetch.git /tmp/x-native-src/xfetch
+
+      - name: Build native .xp packages (xpm, xpkg, xfetch)
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/x-native-out
+
+          for project in xpm xpkg xfetch; do
+            cd "/tmp/x-native-src/${project}/packaging/xpkg"
+            ~/.cargo/bin/xpkg build -o /tmp/x-native-out
+          done
+
+          ls -lah /tmp/x-native-out
+
+      - name: Import repository signing key and export public keyring
+        env:
+          X_REPO_GPG_PRIVATE_KEY_B64: ${{ secrets.X_REPO_GPG_PRIVATE_KEY_B64 }}
+          X_REPO_GPG_KEY_FPR: ${{ secrets.X_REPO_GPG_KEY_FPR }}
+        run: |
+          set -euo pipefail
+
+          [ -n "${X_REPO_GPG_PRIVATE_KEY_B64:-}" ] || {
+            echo "Missing required secret: X_REPO_GPG_PRIVATE_KEY_B64"
+            exit 1
+          }
+
+          [ -n "${X_REPO_GPG_KEY_FPR:-}" ] || {
+            echo "Missing required secret: X_REPO_GPG_KEY_FPR"
+            exit 1
+          }
+
+          install -d -m 700 "$GNUPGHOME"
+
+          echo "$X_REPO_GPG_PRIVATE_KEY_B64" | base64 -d > /tmp/signing-private.key
+          gpg --batch --import /tmp/signing-private.key >/dev/null
+
+          imported_fpr="$(gpg --batch --with-colons --list-secret-keys | awk -F: '$1=="fpr"{print $10; exit}')"
+          [ -n "$imported_fpr" ] || {
+            echo "Could not read imported GPG key fingerprint"
+            exit 1
+          }
+
+          if [ "$imported_fpr" != "$X_REPO_GPG_KEY_FPR" ]; then
+            echo "Imported key fingerprint does not match expected fingerprint"
+            echo "Expected: $X_REPO_GPG_KEY_FPR"
+            echo "Got:      $imported_fpr"
+            exit 1
+          fi
+
+          gpg --batch --export "$X_REPO_GPG_KEY_FPR" > /tmp/trustedkeys.gpg
+          gpg --batch --armor --export "$X_REPO_GPG_KEY_FPR" > /tmp/signing.pub
+
+          echo "X_REPO_SIGNING_FPR=$X_REPO_GPG_KEY_FPR" >> "$GITHUB_ENV"
+
+      - name: Create and sign x native repository endpoint
+        env:
+          X_REPO_GPG_PASSPHRASE: ${{ secrets.X_REPO_GPG_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+
+          [ -n "${X_REPO_SIGNING_FPR:-}" ] || {
+            echo "Missing signing fingerprint from previous step"
+            exit 1
+          }
+
+          mkdir -p public/x/x86_64
+          rm -f public/x/x86_64/*
+
+          sign_file() {
+            local target="$1"
+            local sig="${target}.sig"
+
+            rm -f "$sig"
+
+            gpg --batch --yes --no-tty --pinentry-mode loopback \
+              --passphrase "${X_REPO_GPG_PASSPHRASE:-}" \
+              --local-user "$X_REPO_SIGNING_FPR" \
+              --digest-algo SHA512 \
+              --detach-sign --output "$sig" "$target"
+          }
+
+          for pkg in /tmp/x-native-out/*.xp; do
+            [ -e "$pkg" ] || { echo "No .xp packages were produced"; exit 1; }
+            cp "$pkg" public/x/x86_64/
+          done
+
+          (
+            cd public/x/x86_64
+            rm -f x.db* x.files* || true
+            repo-add -n -R x.db.tar.gz *.xp
+            rm -f x.db x.files
+            cp x.db.tar.gz x.db
+            cp x.files.tar.gz x.files
+          )
+
+          find public/x/x86_64 -maxdepth 1 -type f \
+            \( -name "*.xp" -o -name "x.db" -o -name "x.files" -o -name "x.db.tar.gz" -o -name "x.files.tar.gz" \) \
+            -print0 | sort -z | while IFS= read -r -d '' file; do
+              sign_file "$file"
+            done
+
+          cp /tmp/trustedkeys.gpg public/x/x86_64/trustedkeys.gpg
+          cp /tmp/signing.pub public/x/x86_64/signing.pub
+
+          (
+            cd public/x/x86_64
+            sha256sum * > SHA256SUMS
+          )
+
+          sign_file public/x/x86_64/SHA256SUMS
+
+      - name: Verify generated signatures in CI
+        run: |
+          set -euo pipefail
+
+          gpgv \
+            --keyring public/x/x86_64/trustedkeys.gpg \
+            public/x/x86_64/SHA256SUMS.sig \
+            public/x/x86_64/SHA256SUMS
+
+          while IFS= read -r sig; do
+            target="${sig%.sig}"
+            gpgv --keyring public/x/x86_64/trustedkeys.gpg "$sig" "$target"
+          done < <(find public/x/x86_64 -maxdepth 1 -type f -name "*.sig" | sort)
+
+      - name: Upload x endpoint artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: x-native-files
+          path: public
+
+  deploy-web:
+    needs: build-x-native
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout x-repo
+        uses: actions/checkout@v4
+
+      - name: Download x endpoint artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: x-native-files
+          path: public
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install and build website
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
