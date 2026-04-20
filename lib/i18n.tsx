@@ -179,7 +179,7 @@ This repository contains the complete ArchISO profile along with the post-instal
 
 X aims to provide a system based on Arch that is minimal yet refined, with its own identity and a consistent user experience.
 
-It is built entirely from the official Arch repositories, using the standard `mkarchiso` workflow combined with a custom profile configuration.
+It is built entirely from the official Arch repositories, using the standard \`mkarchiso\` workflow combined with a custom profile configuration.
 
 
 ---
