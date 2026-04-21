@@ -82,6 +82,7 @@ sig_level = "required"
 <pre><code>sudo xpm sync
 sudo xpm install xpkg
 sudo xpm install xfetch
+sudo xpm install xclock
 </code></pre>
 
 <p>This flow pulls signed <code>.xp</code> packages from <code>x/x86_64</code>.</p>
