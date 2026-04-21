@@ -91,6 +91,14 @@
 
 <ul>
   <li><code>.github/workflows/build.yml</code></li>
+  <li><code>.github/workflows/build-x-native.yml</code></li>
+</ul>
+
+<p><b>Workflow split:</b></p>
+
+<ul>
+  <li><code>build.yml</code>: Main website and mixed repository publish flow (pacman + x endpoint policy).</li>
+  <li><code>build-x-native.yml</code>: Dedicated x-native pipeline that builds <code>xpm</code>, <code>xpkg</code>, and <code>xfetch</code> from their source repositories and publishes only to <code>public/x/x86_64</code>.</li>
 </ul>
 
 <p>High-level sequence:</p>

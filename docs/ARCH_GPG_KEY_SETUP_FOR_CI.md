@@ -138,6 +138,25 @@ gpg --list-secret-keys --with-colons | awk -F: '/^fpr:/ {print $10; exit}'
 
 <hr />
 
+<h2>Client Bootstrap (Unknown PGP Key Error)</h2>
+
+<p>If users see an unknown key error while syncing the <code>x</code> repository with pacman, they must import the repository public key directly from this project endpoint.</p>
+
+<pre><code>sudo pacman-key --init
+sudo pacman-key --populate archlinux
+
+curl -fsSL https://xscriptor.github.io/x-repo/repo/x86_64/signing.pub -o /tmp/x-repo-signing.pub
+sudo pacman-key --add /tmp/x-repo-signing.pub
+sudo pacman-key --lsign-key 5AFC2CB4062E2CF43DF676CD13D45D50FFE244EE
+
+sudo rm -f /var/lib/pacman/sync/x.db /var/lib/pacman/sync/x.db.sig
+sudo pacman -Syy
+</code></pre>
+
+<p>This is expected behavior when the repository key is not available in remote keyservers. Importing and locally signing the key solves the issue.</p>
+
+<hr />
+
 <h2>Step 9: Secure Cleanup On Your Arch Machine</h2>
 
 <pre><code>shred -u /tmp/x-repo-signing-key.conf || rm -f /tmp/x-repo-signing-key.conf
