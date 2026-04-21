@@ -47,8 +47,9 @@ jobs:
           mkdir -p /tmp/x-native-out
 
           for project in xpm xpkg xfetch xclock; do
-            cd "/tmp/x-native-src/${project}/packaging/xpkg"
-            ~/.cargo/bin/xpkg build -o /tmp/x-native-out
+            ~/.cargo/bin/xpkg build \
+              -f "/tmp/x-native-src/${project}/packaging/xpkg/XBUILD" \
+              -o /tmp/x-native-out
           done
 
           ls -lah /tmp/x-native-out
