@@ -9,6 +9,14 @@
   </p>
 </div>
 
+<p align="center">
+    <img alt="License" src="https://img.shields.io/badge/license-GPL--3.0-blue.svg">
+    <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white">
+    <img alt="Next.js" src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white">
+    <img alt="CI" src="https://img.shields.io/github/actions/workflow/status/xscriptor/x-repo/build.yml?branch=main&label=CI">
+    <img alt="Website" src="https://img.shields.io/badge/website-dev.xscriptor.com-8B5CF6">
+</p>
+
 <hr />
 
 <h2 align="center"> Table of Contents </h2>
