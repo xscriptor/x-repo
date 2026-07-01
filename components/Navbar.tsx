@@ -103,7 +103,7 @@ function DockItem({
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
-  const { language, setLanguage, t } = useI18n();
+  const { language, setLanguage } = useI18n();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const mouseX = useMotionValue(Infinity);
