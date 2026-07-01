@@ -14,11 +14,8 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
-env:
-  GNUPGHOME: /tmp/gnupg
-
 jobs:
-  # 1. Build and sign package repositories
+  # 1. Build package repositories
   build-repo:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
@@ -28,9 +25,9 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install toolchain, xpkg and GnuPG
+      - name: Install toolchain and xpkg
         run: |
-          pacman -Sy --noconfirm --needed rust cargo git openssl pkgconf gnupg
+          pacman -Sy --noconfirm --needed rust cargo git openssl pkgconf
           cargo install --git https://github.com/xscriptor/xpkg --locked xpkg
 
       - name: Build x-release package (XBUILD)
@@ -47,75 +44,15 @@ jobs:
 
           cp "$latest_xpm" /tmp/xpkg-out/
 
-      - name: Import repository signing key and export public keyring
-        env:
-          X_REPO_GPG_PRIVATE_KEY_B64: ${{ secrets.X_REPO_GPG_PRIVATE_KEY_B64 }}
-          X_REPO_GPG_KEY_FPR: ${{ secrets.X_REPO_GPG_KEY_FPR }}
+      - name: Create repositories (pacman and xpm)
         run: |
           set -euo pipefail
-
-          [ -n "${X_REPO_GPG_PRIVATE_KEY_B64:-}" ] || {
-            echo "Missing required secret: X_REPO_GPG_PRIVATE_KEY_B64"
-            exit 1
-          }
-
-          [ -n "${X_REPO_GPG_KEY_FPR:-}" ] || {
-            echo "Missing required secret: X_REPO_GPG_KEY_FPR"
-            exit 1
-          }
-
-          install -d -m 700 "$GNUPGHOME"
-
-          echo "$X_REPO_GPG_PRIVATE_KEY_B64" | base64 -d > /tmp/signing-private.key
-          gpg --batch --import /tmp/signing-private.key >/dev/null
-
-          imported_fpr="$(gpg --batch --with-colons --list-secret-keys | awk -F: '$1=="fpr"{print $10; exit}')"
-          [ -n "$imported_fpr" ] || {
-            echo "Could not read imported GPG key fingerprint"
-            exit 1
-          }
-
-          if [ "$imported_fpr" != "$X_REPO_GPG_KEY_FPR" ]; then
-            echo "Imported key fingerprint does not match expected fingerprint"
-            echo "Expected: $X_REPO_GPG_KEY_FPR"
-            echo "Got:      $imported_fpr"
-            exit 1
-          fi
-
-          gpg --batch --export "$X_REPO_GPG_KEY_FPR" > /tmp/trustedkeys.gpg
-          gpg --batch --armor --export "$X_REPO_GPG_KEY_FPR" > /tmp/signing.pub
-
-          echo "X_REPO_SIGNING_FPR=$X_REPO_GPG_KEY_FPR" >> "$GITHUB_ENV"
-
-      - name: Create and sign repositories (pacman and xpm)
-        env:
-          X_REPO_GPG_PASSPHRASE: ${{ secrets.X_REPO_GPG_PASSPHRASE }}
-        run: |
-          set -euo pipefail
-
-          [ -n "${X_REPO_SIGNING_FPR:-}" ] || {
-            echo "Missing signing fingerprint from previous step"
-            exit 1
-          }
 
           mkdir -p public/repo/x86_64 public/x/x86_64
 
           rm -f public/repo/x86_64/* public/x/x86_64/*
 
           pacman_pkg_count=0
-
-          sign_file() {
-            local target="$1"
-            local sig="${target}.sig"
-
-            rm -f "$sig"
-
-            gpg --batch --yes --no-tty --pinentry-mode loopback \
-              --passphrase "${X_REPO_GPG_PASSPHRASE:-}" \
-              --local-user "$X_REPO_SIGNING_FPR" \
-              --digest-algo SHA512 \
-              --detach-sign --output "$sig" "$target"
-          }
 
           # Copy .xp packages to xpm endpoint
           for pkg in /tmp/xpkg-out/*.xp; do
@@ -162,45 +99,13 @@ jobs:
             cp x.files.tar.gz x.files
           )
 
-          # Sign packages and repository metadata for both endpoints
+          # Generate checksums for both endpoints
           for endpoint in public/x/x86_64 public/repo/x86_64; do
-            find "$endpoint" -maxdepth 1 -type f \
-              \( -name "*.xp" -o -name "*.pkg.tar.zst" -o -name "x.db" -o -name "x.files" -o -name "x.db.tar.gz" -o -name "x.files.tar.gz" \) \
-              -print0 | sort -z | while IFS= read -r -d '' file; do
-                sign_file "$file"
-              done
-
-            cp /tmp/trustedkeys.gpg "$endpoint/trustedkeys.gpg"
-            cp /tmp/signing.pub "$endpoint/signing.pub"
-
             (
               cd "$endpoint"
               sha256sum * > SHA256SUMS
             )
-
-            sign_file "$endpoint/SHA256SUMS"
           done
-
-      - name: Verify generated signatures in CI
-        run: |
-          set -euo pipefail
-
-          verify_endpoint() {
-            local endpoint="$1"
-
-            gpgv \
-              --keyring "$endpoint/trustedkeys.gpg" \
-              "$endpoint/SHA256SUMS.sig" \
-              "$endpoint/SHA256SUMS"
-
-            while IFS= read -r sig; do
-              target="${sig%.sig}"
-              gpgv --keyring "$endpoint/trustedkeys.gpg" "$sig" "$target"
-            done < <(find "$endpoint" -maxdepth 1 -type f -name "*.sig" ! -name "trustedkeys.gpg.sig" | sort)
-          }
-
-          verify_endpoint public/x/x86_64
-          verify_endpoint public/repo/x86_64
 
       - name: Upload Repo Artifact
         uses: actions/upload-artifact@v4
